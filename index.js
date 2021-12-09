@@ -35,17 +35,21 @@ function renderMoviesAccordion(movies) {
     });  
     loadMovieSectionAccordion.innerHTML += movieHtmlArrayAccordion.join('');
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-	// code here will execute after the document is loaded
+const myForm = document.querySelector('#searchbar-form');
+const submitButton = document.querySelector('#search-button');
+myForm.addEventListener('submit', function(event) { 
+    // event listener code goes here
+    event.preventDefault();
+    console.log("hello");
+    renderMoviesAccordion(movieData);
+    renderMoviesCarousel(movieData);    
 });
 
-const myForm = document.querySelector('#searchbar-form');
-myForm.addEventListener('submit', function(e){
-    // event listener code goes here
-    preventDefault();
-    renderMoviesAccordion(movieData);
-    renderMoviesCarousel(movieData);
+// document.addEventListener('DOMContentLoaded', function() {
+// 	// code here will execute after the document is loaded
     
-})
+// });
+
+
+
 

@@ -33,19 +33,22 @@ function renderMoviesAccordion(movies) {
         </div>
       </div>`
     });  
-    loadMovieSectionAccordion.innerHTML += movieHtmlArrayAccordion.join('');
+    loadMovieSectionAccordion.innerHTML = movieHtmlArrayAccordion.join('');
 }
 const myForm = document.querySelector('#searchbar-form');
-const submitButton = document.querySelector('#search-button');
+const userInputString = document.querySelector('#search-shadow');
 myForm.addEventListener('submit', function(event) { 
     // event listener code goes here
     event.preventDefault();
-    console.log("hello");
-    renderMoviesAccordion(movieData);
-    renderMoviesCarousel(movieData);    
+    encodedString = encodeURIComponent(userInputString.value);
+    fetch(`http://www.omdbapi.com/?apikey=59354c85&s=${encodedString}`)
+    .then(res => res.json())
+    .then(movieObjectArray => {
+      renderMoviesAccordion(movieObjectArray.Search);
+      renderMoviesCarousel(movieObjectArray.Search);   
+    })
+     
 });
-
-
 
 
 

@@ -27,7 +27,7 @@ function renderMoviesAccordion(movies) {
             <div class="movie-details">
               <h3 class="movie-title"><strong>${currentMovie.Title}</strong></h3>
               <h5 class="release-date">Release Date: <em>${currentMovie.Year}</em></h5>
-              <button class="add-movie">ADD</button>
+              <button class="add-movie" data-imdbid="${currentMovie.imdbID}">ADD</button>
             </div>
           </div>
         </div>
@@ -35,8 +35,21 @@ function renderMoviesAccordion(movies) {
     });  
     loadMovieSectionAccordion.innerHTML = movieHtmlArrayAccordion.join('');
 }
+
+function saveToWatchlist(id) {
+  let movie = {};
+  movie = movieData.find(movieIndex => {
+    if (movieIndex.imdbID == id) {
+      console.log(movieIndex);
+      return movieIndex;
+    }
+  })
+}
+
 const myForm = document.querySelector('#searchbar-form');
 const userInputString = document.querySelector('#search-shadow');
+let movieID = '';
+
 myForm.addEventListener('submit', function(event) { 
     // event listener code goes here
     event.preventDefault();
@@ -45,8 +58,14 @@ myForm.addEventListener('submit', function(event) {
     .then(res => res.json())
     .then(movieObjectArray => {
       renderMoviesAccordion(movieObjectArray.Search);
-      renderMoviesCarousel(movieObjectArray.Search);   
-    })
+      renderMoviesCarousel(movieObjectArray.Search);
+      movieData = movieObjectArray.Search;
+          document.addEventListener('click', function(event) {
+              if (event.target.classList.value == 'add-movie') {
+                saveToWatchlist(event.target.dataset.imdbid);
+              }
+          });
+    });
      
 });
 

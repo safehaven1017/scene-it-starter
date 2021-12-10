@@ -30,8 +30,13 @@ body {
 	font-size: 1vw;
 }
 
+#button-div {
+	margin-bottom: 2vw;
+}
+
 #bar-form {
 	width: 40vw;
+	margin-top: 0;
 }
 
 .poster {

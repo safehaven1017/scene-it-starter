@@ -6,7 +6,7 @@ function renderMoviesCarousel(movies) {
             <h5>${currentMovie.Title}</h5>
             <p>${currentMovie.Year}</p>
         </div>            
-        <img src="${currentMovie.Poster}" class="d-block w-100 poster" alt="...">
+        <img src="${currentMovie.Poster}" class="d-block w-100 poster" alt="no_image.png">
                 </div>`
     });  
     loadMovieSectionCarousel.innerHTML = movieHtmlArrayCarousel.join('');
@@ -23,7 +23,7 @@ function renderMoviesAccordion(movies) {
         </h2>
         <div id="flush-collapse${index}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
           <div class="accordion-body">
-            <img src="${currentMovie.Poster}" alt="" class="accordion-image">
+            <img src="${currentMovie.Poster}" alt="no_image.png" class="accordion-image">
             <div class="movie-details">
               <h3 class="movie-title"><strong>${currentMovie.Title}</strong></h3>
               <h5 class="release-date">Release Date: <em>${currentMovie.Year}</em></h5>

@@ -45,10 +45,6 @@ myForm.addEventListener('submit', function(event) {
     renderMoviesCarousel(movieData);    
 });
 
-// document.addEventListener('DOMContentLoaded', function() {
-// 	// code here will execute after the document is loaded
-    
-// });
 
 
 

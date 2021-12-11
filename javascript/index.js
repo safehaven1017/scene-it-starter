@@ -36,19 +36,37 @@ function renderMoviesAccordion(movies) {
     loadMovieSectionAccordion.innerHTML = movieHtmlArrayAccordion.join('');
 }
 
-function saveToWatchlist(id) {
+function saveToWatchlist(id, htmlObject) {
   let movie = {};
   movie = movieData.find(movieIndex => {
     if (movieIndex.imdbID == id) {
-      console.log(movieIndex);
       return movieIndex;
     }
   })
+  let watchlistJSON = localStorage.getItem('watchlist');
+  let watchlist = JSON.parse(watchlistJSON);
+  
+  if (watchlist == null) {
+    watchlist = [];
+  }
+  
+  for (let i = 0; i < watchlist.length; i++) {
+    if (watchlist[i].imdbID == id) {
+      htmlObject.innerHTML = 'Title already added!';
+      setTimeout(() => {
+        htmlObject.innerHTML = 'ADD';
+      }, 2000);
+      return;
+    }
+  }
+  watchlist.push(movie);
+  console.log(watchlist);
+  watchlistJSON = JSON.stringify(watchlist);
+  localStorage.setItem('watchlist', watchlistJSON);
 }
 
 const myForm = document.querySelector('#searchbar-form');
 const userInputString = document.querySelector('#search-shadow');
-let movieID = '';
 
 myForm.addEventListener('submit', function(event) { 
     // event listener code goes here
@@ -62,7 +80,7 @@ myForm.addEventListener('submit', function(event) {
       movieData = movieObjectArray.Search;
           document.addEventListener('click', function(event) {
               if (event.target.classList.value == 'add-movie') {
-                saveToWatchlist(event.target.dataset.imdbid);
+                saveToWatchlist(event.target.dataset.imdbid, event.target);
               }
           });
     });

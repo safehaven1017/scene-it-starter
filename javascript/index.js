@@ -37,30 +37,41 @@ function renderMoviesAccordion(movies) {
 }
 
 function saveToWatchlist(id, htmlObject) {
+  
+  let watchlistJSON = localStorage.getItem('watchlist');
+  let watchlist = JSON.parse(watchlistJSON);
+  let alreadyAddedBool = false;
+  
+  if (watchlist == null) {
+    watchlist = [];
+  }
+  
+  watchlist.find(movie => {
+    if (movie.imdbID == id) {
+      alreadyAddedBool = true;
+      htmlObject.innerHTML = 'Title Already Added!';
+      setTimeout(() => {
+        htmlObject.innerHTML = 'ADD';
+      }, 2000);
+    }
+  })
+
+  if (alreadyAddedBool) {
+    return;
+  }
+  
   let movie = {};
   movie = movieData.find(movieIndex => {
     if (movieIndex.imdbID == id) {
       return movieIndex;
     }
   })
-  let watchlistJSON = localStorage.getItem('watchlist');
-  let watchlist = JSON.parse(watchlistJSON);
-  
-  if (watchlist == null) {
-    watchlist = [];
-  }
-  
-  for (let i = 0; i < watchlist.length; i++) {
-    if (watchlist[i].imdbID == id) {
-      htmlObject.innerHTML = 'Title already added!';
-      setTimeout(() => {
-        htmlObject.innerHTML = 'ADD';
-      }, 2000);
-      return;
-    }
-  }
+
   watchlist.push(movie);
-  console.log(watchlist);
+  htmlObject.innerHTML = 'Movie Added!'
+  setTimeout(() => {
+    htmlObject.innerHTML = 'ADD';
+  }, 2000);
   watchlistJSON = JSON.stringify(watchlist);
   localStorage.setItem('watchlist', watchlistJSON);
 }

@@ -53,6 +53,7 @@ function saveToWatchlist(id, htmlObject) {
       setTimeout(() => {
         htmlObject.innerHTML = 'ADD';
       }, 2000);
+      return;
     }
   })
 
@@ -89,11 +90,11 @@ myForm.addEventListener('submit', function(event) {
       renderMoviesAccordion(movieObjectArray.Search);
       renderMoviesCarousel(movieObjectArray.Search);
       movieData = movieObjectArray.Search;
-          document.addEventListener('click', function(event) {
-              if (event.target.classList.value == 'add-movie') {
-                saveToWatchlist(event.target.dataset.imdbid, event.target);
-              }
-          });
+      document.addEventListener('click', function(event) {
+          if (event.target.classList.value == 'add-movie') {
+            saveToWatchlist(event.target.dataset.imdbid, event.target);
+          }
+      });
     });
      
 });

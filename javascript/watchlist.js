@@ -1,7 +1,7 @@
 function renderMoviesCards(movies) {
     const loadMovieSectionCards = document.querySelector('#cards-list');
     const movieHtmlArrayCards = movies.map(function(currentMovie) {
-        return `<div class="card" style="width: 18rem;">
+        return `<div class="card watchlist-card">
         <img class="card-img-top" src="${currentMovie.Poster}" alt="no_image.png">
         <div class="card-body">
             <h3><strong>${currentMovie.Title}</strong></h3>
@@ -19,9 +19,9 @@ function removeMovieFromWatchlist(id) {
             watchlist.splice(i, 1);
         }
     }
-    renderMoviesCards(watchlist);
     watchlistJSON = JSON.stringify(watchlist);
     localStorage.setItem('watchlist', watchlistJSON);
+    renderMoviesCards(watchlist);  
 }
 
 let watchlistJSON = localStorage.getItem('watchlist');

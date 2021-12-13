@@ -42,30 +42,27 @@ function saveToWatchlist(htmlObject, loadedMovies) {
   let watchlistJSON = localStorage.getItem('watchlist');
   let watchlist = JSON.parse(watchlistJSON);
   let alreadyAddedBool = false;
-  console.log(watchlist);
   
-  for (let i = 0; i < watchlist.length; i++) {
-    if( watchlist[i] == null)
-      watchlist.splice(i, 1);
-  }
-  
-  console.log(watchlist);
+  // for (let i = 0; i < watchlist.length; i++) {
+  //   if( watchlist[i] == null)
+  //     watchlist.splice(i, 1);
+  // }
 
   if (watchlist == null) {
     watchlist = [];
   }
-  else {
+  
     watchlist.find(movie => {
       if (movie.imdbID == id) {
+        console.log(movie);
+        console.log(id);
         alreadyAddedBool = true;
         htmlObject.innerHTML = 'Title Already Added!';
         setTimeout(() => {
           htmlObject.innerHTML = 'ADD';
         }, 2000);
-        return;
       }
     })
-  }
 
   if (alreadyAddedBool) {
     return;
@@ -78,21 +75,19 @@ function saveToWatchlist(htmlObject, loadedMovies) {
       }
     })
 
-    console.log(movie);
     watchlist.push(movie);
     htmlObject.innerHTML = 'Movie Added!'
     setTimeout(() => {
       htmlObject.innerHTML = 'ADD';
     }, 2000);
   }
-
   watchlistJSON = JSON.stringify(watchlist);
   localStorage.setItem('watchlist', watchlistJSON);
 }
 
 const myForm = document.querySelector('#searchbar-form');
 const userInputString = document.querySelector('#search-shadow');
-const movieData = [];
+let movieData = [];
 
 myForm.addEventListener('submit', function(event) { 
     // event listener code goes here

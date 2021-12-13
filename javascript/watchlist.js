@@ -24,20 +24,10 @@ function removeMovieFromWatchlist(id) {
     localStorage.setItem('watchlist', watchlistJSON);
 }
 
-
-
-
-
-
-
-
-
-
-
 let watchlistJSON = localStorage.getItem('watchlist');
 let watchlist = JSON.parse(watchlistJSON);
 
-if (watchlist == null) {
+if (watchlist == false) {
     watchlist = [];
 }
 renderMoviesCards(watchlist);

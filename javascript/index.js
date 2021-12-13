@@ -36,49 +36,63 @@ function renderMoviesAccordion(movies) {
     loadMovieSectionAccordion.innerHTML = movieHtmlArrayAccordion.join('');
 }
 
-function saveToWatchlist(id, htmlObject) {
+function saveToWatchlist(htmlObject, loadedMovies) {
   
+  const id = htmlObject.dataset.imdbid;
   let watchlistJSON = localStorage.getItem('watchlist');
   let watchlist = JSON.parse(watchlistJSON);
   let alreadyAddedBool = false;
+  console.log(watchlist);
   
+  for (let i = 0; i < watchlist.length; i++) {
+    if( watchlist[i] == null)
+      watchlist.splice(i, 1);
+  }
+  
+  console.log(watchlist);
+
   if (watchlist == null) {
     watchlist = [];
   }
-  
-  watchlist.find(movie => {
-    if (movie.imdbID == id) {
-      alreadyAddedBool = true;
-      htmlObject.innerHTML = 'Title Already Added!';
-      setTimeout(() => {
-        htmlObject.innerHTML = 'ADD';
-      }, 2000);
-      return;
-    }
-  })
+  else {
+    watchlist.find(movie => {
+      if (movie.imdbID == id) {
+        alreadyAddedBool = true;
+        htmlObject.innerHTML = 'Title Already Added!';
+        setTimeout(() => {
+          htmlObject.innerHTML = 'ADD';
+        }, 2000);
+        return;
+      }
+    })
+  }
 
   if (alreadyAddedBool) {
     return;
   }
-  
-  let movie = {};
-  movie = movieData.find(movieIndex => {
-    if (movieIndex.imdbID == id) {
-      return movieIndex;
-    }
-  })
+  else {
+    let movie = {};
+    movie = loadedMovies.find(movieIndex => {
+      if (movieIndex.imdbID == id) {
+        return movieIndex;
+      }
+    })
 
-  watchlist.push(movie);
-  htmlObject.innerHTML = 'Movie Added!'
-  setTimeout(() => {
-    htmlObject.innerHTML = 'ADD';
-  }, 2000);
+    console.log(movie);
+    watchlist.push(movie);
+    htmlObject.innerHTML = 'Movie Added!'
+    setTimeout(() => {
+      htmlObject.innerHTML = 'ADD';
+    }, 2000);
+  }
+
   watchlistJSON = JSON.stringify(watchlist);
   localStorage.setItem('watchlist', watchlistJSON);
 }
 
 const myForm = document.querySelector('#searchbar-form');
 const userInputString = document.querySelector('#search-shadow');
+const movieData = [];
 
 myForm.addEventListener('submit', function(event) { 
     // event listener code goes here
@@ -87,12 +101,12 @@ myForm.addEventListener('submit', function(event) {
     fetch(`http://www.omdbapi.com/?apikey=59354c85&s=${encodedString}`)
     .then(res => res.json())
     .then(movieObjectArray => {
-      renderMoviesAccordion(movieObjectArray.Search);
-      renderMoviesCarousel(movieObjectArray.Search);
       movieData = movieObjectArray.Search;
+      renderMoviesAccordion(movieData);
+      renderMoviesCarousel(movieData);
       document.addEventListener('click', function(event) {
           if (event.target.classList.value == 'add-movie') {
-            saveToWatchlist(event.target.dataset.imdbid, event.target);
+            saveToWatchlist(event.target, movieData);
           }
       });
     });
